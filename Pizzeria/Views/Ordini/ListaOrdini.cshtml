@@ -1,0 +1,140 @@
+﻿@model IEnumerable<Pizzeria.Models.Ordini>
+
+<div class="container">
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Utenti.Nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataOrdine)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Stato)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Note)
+        </th>
+        <th>
+            Totale
+        </th>
+        <th>Ordine</th>
+        <th>Indirizzo</th>
+        
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Utenti.Nome)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DataOrdine)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Stato)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Note)
+        </td>
+        <td>
+            @{
+                decimal? tot = 0;
+            }
+            @foreach (Pizzeria.Models.DettagliOrdine d in item.DettagliOrdine)
+            {
+
+                tot += (d.Articoli.Prezzo * d.Quantita);
+
+            }
+            @tot
+
+        </td>
+        <td>
+            @foreach (var p in item.DettagliOrdine)
+            {
+                <div class="d-flex flex-column">
+
+                    @p.Quantita
+
+                    @p.Articoli.Nome
+                </div>
+            }
+        </td> 
+        <td>
+          @item.Utenti.Indirizzo
+        </td>
+        <td>
+            @Html.ActionLink("Evadi Ordine", "ModificaOrdine", new { id = item.IdOrdini }, new {@class="btn btn-outline-danger"})
+        </td>
+    </tr>
+}
+
+</table>
+<div class="d-flex justify-content-between w-100">
+
+<button id="btn1" class="btn btn-outline-danger">Ordini evasi</button>
+@*<button id="btn2" class="btn btn-outline-danger">Totale Giornata</button>*@
+</div>
+@*<form>
+
+            
+
+<div id="totale">
+    <input type="datetime-local" name="data" id="data" />
+    <button type="submit">Cerca</button>
+    <p></p>
+</div>
+</form>*@
+            
+
+<div id="ordiniEvasi">
+    <ul id="list">
+       
+    </ul>
+
+    <p></p>
+</div>
+
+</div>
+
+
+@section scripts
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#btn1").click(function () {
+                    $("#ordiniEvasi").slideToggle()
+                    $("#list").empty()
+                    $.ajax({
+                        method: "GET",
+                        url: "OrdiniEvasi",
+                        success: function (i) {
+                            console.log(i);
+                            $.each(i, function (o,v) {
+
+                                var li = `<li> Ordine n:${v.IdOrdine}</li>`;
+
+                                $("#list").append(li);
+                            })
+                                $("p").html(`Totale: ${i.length}`)
+                        }
+                
+                    });
+                });
+
+                $("#btn2").click(function () {
+                    $("#totale").slideToggle()
+                    $.ajax({
+                        method: "POST",
+                        url: "IncassoGiornaliero",
+                        success: function (i) {
+                            console.log(i)
+                        }
+                    })
+                } )
+            })
+        </script>
+    
+    }

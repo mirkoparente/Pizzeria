@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Pizzeria.Models.Articoli>
+
+@{
+    ViewBag.Title = "ListaArticoli";
+}
+
+<h2 class="text-center my-3">Lista Pizze</h2>
+
+
+
+
+
+<table class="table mt-5">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Foto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Prezzo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TempoConsegna)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ingredienti)
+        </th>
+        <th><p>
+    @Html.ActionLink("Aggiungi Pizza", "Add", "", new { @class = "btn btn-outline-danger" })
+</p></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nome)
+        </td>
+        <td class="w-25">
+            <img src="~/Content/img/@item.Foto" class="w-25" alt="Foto Pizza" />
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Prezzo)
+        </td>
+        <td>
+            @item.TempoConsegna min
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ingredienti)
+        </td>
+        <td>
+            @Html.ActionLink("Modifica Articolo", "ModificaArticolo", new { id=item.IdArticoli },new {@class="btn btn-outline-danger"}) 
+            @Html.ActionLink("Elimina", "Delete", new { id=item.IdArticoli }, new { @class = "btn btn-outline-danger" })
+        </td>
+    </tr>
+}
+
+</table>

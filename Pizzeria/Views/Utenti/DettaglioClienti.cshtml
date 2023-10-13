@@ -1,0 +1,49 @@
+﻿@model Pizzeria.Models.Utenti
+
+@{
+    ViewBag.Title = "DettaglioClienti";
+}
+
+<h2 class="text-center my-3">Profilo</h2>
+
+<div class="container">
+    <hr />
+    <dl class="dl-horizontal ">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cognome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cognome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Indirizzo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Indirizzo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Citta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Citta)
+        </dd>
+
+        @Html.ActionLink("Modifica Profilo", "ModificaCliente", new { id = Model.IdUtenti }, new { @class = "btn btn-outline-danger" })
+        @Html.ActionLink("Elimina Profilo", "Delete", new { id = Model.IdUtenti }, new { @class = "btn btn-outline-danger" })
+
+
+    </dl>
+</div>

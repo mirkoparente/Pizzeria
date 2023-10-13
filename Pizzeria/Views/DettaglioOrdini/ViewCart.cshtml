@@ -1,0 +1,153 @@
+﻿@model IEnumerable<Pizzeria.Models.Ordini>
+
+
+
+@if (Model.Count()==0)
+{
+
+    <div class="container">
+        <section class="section-preview d-flex justify-content-center">
+
+            <!-- Grid row -->
+            <div class="row w-100 justify-content-center mx-1">
+                <!-- Grid column -->
+                <div class="col col-md-6 mb-4">
+                    <!-- Card -->
+                    <div class="card card-cascade wider reverse">
+                        <!-- Card content -->
+                        <div class="card-body card-body-cascade text-center">
+
+                            <!-- Title -->
+
+                          Non ci sono ordini nel Carrello
+                        </div>
+
+                    </div>
+                    <!-- Card -->
+
+                </div>
+                <!-- Grid column -->
+
+            </div>
+            <!-- Grid row -->
+        </section>
+    </div>
+}
+else
+{
+
+
+
+
+    <div class="container">
+        <section class="section-preview d-flex justify-content-center">
+
+            <!-- Grid row -->
+            <div class="row w-100 justify-content-center mx-1">
+                <!-- Grid column -->
+                <div class="col col-md-6 mb-4">
+                    <!-- Card -->
+                    <div class="card card-cascade wider reverse">
+                        <!-- Card content -->
+                        <div class="card-body card-body-cascade text-center">
+
+                            @foreach (Pizzeria.Models.Ordini d in Model)
+                            {
+
+                                <!-- Title -->
+                                if (d.Stato == "In Attesa" || d.Stato=="In Preparazione")
+                                {
+
+
+                                    foreach (var p in d.DettagliOrdine)
+                                    {
+                                        <h4 class="card-title"><strong>@p.Articoli.Nome</strong> Quantità: @p.Quantita</h4>
+                                        if (p.Ordini.Stato == "In Preparazione")
+                                        {
+
+
+                                        }
+                                        else
+                                        {
+
+                                            @Html.ActionLink("❌", "RimuoviUno", new { id = p.Articoli.IdArticoli }, new { @class = "btn btn-outline-danger mb-3" })
+                                        }
+
+                                    }
+
+                                    <!-- Subtitle -->
+                                    <h6 class="font-weight-bold indigo-text py-2">@Html.DisplayNameFor(model => model.DataOrdine)</h6>
+                                    <h6 class="font-weight-bold indigo-text py-2"> @d.DataOrdine</h6>
+                                    <!-- Text -->
+                                    <h6 class="font-weight-bold indigo-text py-2">@Html.DisplayNameFor(model => model.Note)</h6>
+
+                                    <p class="card-text">
+                                        @d.Note
+                                    </p>
+                                    <h6 class="font-weight-bold indigo-text py-2">@d.Stato</h6>
+                                    <!-- Text -->
+
+                                    decimal? tot = 0;
+
+                                    foreach (Pizzeria.Models.DettagliOrdine od in d.DettagliOrdine)
+                                    {
+
+                                        tot += (od.Articoli.Prezzo * od.Quantita);
+
+                                    }
+                                    <p class="card-text">
+                                        <small class="text-body-secondary">
+                                            Totale:
+                                            @tot
+
+                                        </small>
+
+                                    </p>
+
+                                    if (d.Stato == "In Preparazione")
+                                    {
+
+
+                                    }
+                                    else
+                                    {
+
+                                        @Html.ActionLink("Conferma Ordine", "ConfermaOrdine", new { id = d.IdOrdini }, new { @class = "btn btn-outline-danger mb-3 me-3" })
+                                        @Html.ActionLink("Svuota Carello", "RimuoviAll", new { id = d.IdOrdini }, new { @class = "btn btn-outline-danger mb-3 me-3" })
+
+                                    }
+                                }
+                                else
+                                {
+                                    
+
+
+                                        <p>
+                                            Il tuo ordine sta per essere consegnato
+                                            🎉
+                                        </p>
+
+                                    }
+                                   
+
+
+                                }
+
+                                @*<label for="quantita">Quantità:</label>
+            <input type="number" id="quantita" name="quantita" class="form-control" value="1" min="1" />
+            <input type="text" id="note" name="note" value="" class="form-control" placeholder="Iserisci note" />
+            <button type="submit" class="btn btn-outline-danger mt-3">Aggiungi al carrello</button>*@
+                            </div>
+
+                    </div>
+                    <!-- Card -->
+
+                </div>
+                <!-- Grid column -->
+
+            </div>
+            <!-- Grid row -->
+        </section>
+    </div>
+
+}

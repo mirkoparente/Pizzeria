@@ -1,0 +1,70 @@
+﻿@model Pizzeria.Models.Articoli
+
+@{
+    ViewBag.Title = "DettaglioPizza";
+}
+
+
+@using (Html.BeginForm("AddToCart", "DettaglioOrdini",FormMethod.Post)){
+<h2 class="text-center my-3">Le Nostre Pizze</h2>
+<div class="container">
+    <section class="section-preview d-flex justify-content-center">
+
+        <!-- Grid row -->
+        <div class="row med justify-content-center mx-1">
+
+            <!-- Grid column -->
+            <div class="col col-md-6 mb-4">
+
+                <!-- Card -->
+                <div class="card card-cascade wider reverse">
+
+                    <!-- Card image -->
+                    <div class="view view-cascade overlay">
+                        <img class="card-img-top" src="~/Content/img/@Model.Foto" alt="Card image cap";>
+                        <a href="#!">
+                            <div class="mask rgba-white-slight waves-effect waves-light"></div>
+                        </a>
+                    </div>
+
+                    <!-- Card content -->
+                    <div class="card-body card-body-cascade text-center">
+
+                        <!-- Title -->
+                        <h4 class="card-title"><strong>@Html.DisplayFor(model => model.Nome)</strong></h4>
+                        <!-- Subtitle -->
+                        <h6 class="font-weight-bold indigo-text py-2">@Html.DisplayNameFor(model => model.Ingredienti)</h6>
+                        <!-- Text -->
+                        <p class="card-text">
+                            @Html.DisplayFor(model => model.Ingredienti)
+                        </p>
+                        <h6 class="font-weight-bold indigo-text py-2">@Html.DisplayNameFor(model => model.TempoConsegna)</h6>
+                        <!-- Text -->
+                        <p class="card-text">
+                            @Html.DisplayFor(model => model.TempoConsegna) min
+                        </p>
+                        <p class="card-text">
+                            <small class="text-body-secondary">
+                                @Html.DisplayFor(model => model.Prezzo)
+                            </small>
+
+                        </p>
+                        @Html.HiddenFor(m=>m.IdArticoli)
+
+                        <label for="quantita">Quantità:</label>
+                        <input type="number" id="quantita" name="quantita" class="form-control" value="1" min="1" />
+                        <input type="text" id="note" name="note" value="" class="form-control" placeholder="Iserisci note" />
+                        <button type="submit" class="btn btn-outline-danger mt-3">Aggiungi al carrello</button>
+                    </div>
+
+                </div>
+                <!-- Card -->
+
+            </div>
+            <!-- Grid column -->
+
+        </div>
+        <!-- Grid row -->
+    </section>
+</div>
+}
